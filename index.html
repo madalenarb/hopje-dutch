@@ -501,7 +501,7 @@ pre.answer{white-space:pre-wrap;font-family:inherit;margin:0}
 <main class="wrap" id="view"></main>
 <nav class="tabs" aria-label="Hoofdmenu"><div class="wrap" id="tabs"></div></nav>
 <div id="toast" class="toast" role="status" hidden></div>
-<script src="em.js?v=d89bb66064"></script>
+<script src="em.js?v=d76e34b867"></script>
 <script>
 /* Hopje picture set (the bunny is drawn by the function still called duck). Each PIC value is the inner markup of <svg viewBox="0 0 200 160">.
    Colour comes only from the classes in pics.css (o t n fy fo fb2 fg fr fp fk fs fu fq fw fx fi). */
@@ -10061,6 +10061,7 @@ rooms: {
   "3": "https://www.goingdutchcommunity.com/products/communities/v2/goingdutchcommunity/meetup-room/0be0eb9a-5631-4b7e-bda8-19d992ae4efe"
 },
 map: "museum",
+learnt: ["de kunst", "het schilderij", "de schilder", "het museum", "het gebouw", "de cultuur", "de vrienden", "het weekend", "de geschiedenis", "de wetenschap", "de foto's", "de beelden", "de kinderen", "het kaartje", "de koffie", "interessant", "duur", "bijzonder", "bezoeken", "leren"],
 decks: [
 { id: "boek", nl: "Woorden uit het boek", en: "the word list of this theme", words: [
   { e: "🎨", nl: "de kunst", en: "art", ex: "Ik hou van kunst.", q: "Hou jij van kunst?" },
@@ -12627,7 +12628,11 @@ buildTPic();
 /* words she marked as new (decks with mine: 1) go to Herhalen straight away, due today */
 function enrolMine() {
   var srs = S.srs || {}, addm = {}, k = 0;
-  THEMES.forEach(function (t) { (t.decks || []).forEach(function (d) { if (d.mine) d.words.forEach(function (w) { var id = fnv(w.nl); if (!srs[id] && !addm[id]) { addm[id] = [0, dayNo()]; k++; } }); }); });
+  THEMES.forEach(function (t) {
+    (t.decks || []).forEach(function (d) { if (d.mine) d.words.forEach(function (w) { var id = fnv(w.nl); if (!srs[id] && !addm[id]) { addm[id] = [0, dayNo()]; k++; } }); });
+    /* words she says she has learnt: into the normal schedule, from tomorrow */
+    (t.learnt || []).forEach(function (nl) { var id = fnv(nl); if (!srs[id] && !addm[id]) { addm[id] = [0, dayNo() + 1]; k++; } });
+  });
   if (k) { CARDS = null; markMany('srs', addm); }
   return k;
 }
