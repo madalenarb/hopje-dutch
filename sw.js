@@ -1,6 +1,6 @@
 /* Offline shell for the Hopje workbook. Pages and pictures: network first, cached copy when offline. Audio is never intercepted. */
-var V = 'hopje-0b85ea92af';
-var SHELL = ['./', 'index.html', 'em.js?v=0b85ea92af', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'icon-180.png'];
+var V = 'hopje-b44d08e9ec';
+var SHELL = ['./', 'index.html', 'em.js?v=b44d08e9ec', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'icon-180.png'];
 self.addEventListener('install', function (e) { e.waitUntil(caches.open(V).then(function (c) { return c.addAll(SHELL); }).then(function () { return self.skipWaiting(); })); });
 self.addEventListener('activate', function (e) { e.waitUntil(caches.keys().then(function (ks) { return Promise.all(ks.filter(function (k) { return k !== V; }).map(function (k) { return caches.delete(k); })); }).then(function () { return self.clients.claim(); })); });
 self.addEventListener('fetch', function (e) {
